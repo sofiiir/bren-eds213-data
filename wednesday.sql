@@ -96,7 +96,7 @@ SELECT COUNT(*) FROM Bird_nests WHERE ageMethod IS NOT NULL;
 --JOINS
 -- 90% of the time we'll join tables based on a foreign key relationship
 SELECT * FROM Camp_assignment;
-SELECT *FROM Camp_assignment JOIN Personnel
+SELECT * FROM Camp_assignment JOIN Personnel
     ON Observer = Abbreviation
     LIMIT 10;
 
@@ -130,3 +130,4 @@ SELECT * FROM Bird_nests JOIN Species
 SELECT COUNT(*) FROM Bird_nests AS BN JOIN Species AS S
     ON BN.Species = S.Code;
 -- even more compact, leave out "AS"
+
