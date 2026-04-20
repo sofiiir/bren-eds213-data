@@ -15,7 +15,9 @@ WHERE Egg_num < 2;
 -- make sure we have NULLs
 SELECT * FROM bird_eggs_subset;
 
+
 -- let's investigate what AVG does when there are NULLS
+-- this doesn't have any ecological value as the number of eggs are simply counted but this is for the research!
 SELECT AVG(Egg_num) FROM bird_eggs_subset;
 -- the AVG function ignores all of the NULLS 
 -- specifically it divides the sum of all of the non-NULLS by the number of non-NULL values

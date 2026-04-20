@@ -10,13 +10,13 @@ CREATE TEMP TABLE Averages AS
 -- join the average table with the bird nests table
 -- compute the max of the average volumes for each species
 CREATE TEMP TABLE Max_avg_vol AS
-    SELECT Species, MAX(Avg_volume)
+    SELECT Species, MAX(Avg_volume) AS max_avg_vol
     FROM Bird_nests JOIN Averages Using (Nest_ID)
     GROUP BY SPECIES;
 
 -- add species names to the max_avg_vol table
- SELECT Species.Common_name, Max_avg_vol.max(Avg_volume)
-    FROM Species JOIN Max_avg_vol 
+ SELECT Species.Common_name, Max_avg_vol.max_avg_vol
+    FROM Species JOIN max_avg_vol 
     ON Species.Code = Max_avg_vol.Species; 
 
 
