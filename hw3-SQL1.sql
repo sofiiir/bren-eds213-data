@@ -2,7 +2,7 @@
 -- take a subset of the bird_eggs table
 CREATE TABLE bird_eggs_subset AS 
 SELECT * FROM bird_eggs
-LIMIT 10; -- select only 15 rows
+LIMIT 10; -- select only 10 rows
 
 -- view the subset dataframe
 SELECT * FROM bird_eggs_subset;
@@ -17,14 +17,14 @@ SELECT * FROM bird_eggs_subset;
 
 
 -- let's investigate what AVG does when there are NULLS
--- this doesn't have any ecological value as the number of eggs are simply counted but this is for the research!
+-- not: this doesn't have any ecological value as the number of eggs are simply counted but this is for the research!
 SELECT AVG(Egg_num) FROM bird_eggs_subset;
 -- the AVG function ignores all of the NULLS 
 -- specifically it divides the sum of all of the non-NULLS by the number of non-NULL values
 -- it ignores that these rows exist
 
--- if we want to take the average interpretting the NULLs as zeros
+-- if we want to take the average interpretting the NULLs as zeros we can use
 SELECT SUM(Egg_num) /COUNT(*) FROM bird_eggs_subset;
 
--- since we're done with this table
+-- since we're done with this table we can drop it 
 DROP TABLE bird_eggs_subset;
