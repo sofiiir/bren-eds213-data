@@ -40,7 +40,7 @@ SELECT AVG(Area) FROM Site;
 SELECT MIN(Area) FROM Site;
 
 -- This won't work but suppose we want to list the 7 location 
--- that occue in the Site table, along with the average are
+-- that occur in the Site table, along with the average are
 SELECT Location, AVG(Area) FROM Site;
 
 -- enter grouping
