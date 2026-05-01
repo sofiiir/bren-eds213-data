@@ -13,7 +13,7 @@ SELECT * FROM Camp_assignment A JOIN Camp_assignment B
     AND A.Start <= B.End
     AND B.Start <= A.End;
 
--- investigate the match of site and time
+-- investigate the match of site and time at lkri site
 -- this shows people working with themselves
 SELECT * FROM Camp_assignment A JOIN Camp_assignment B
     On A.Site = B.Site 
