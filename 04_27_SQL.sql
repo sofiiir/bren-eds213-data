@@ -74,7 +74,8 @@ SELECT Nest_ID, COUNT(*) AS Num_eggs
 -- Three ways: 
 
 -- WAY 1: 
-SELECT Code FROM Species
+SELECT Code 
+    FROM Species
     WHERE Code NOT IN (SELECT DISTINCT Species FROM Bird_nests);
 
 -- WAY 2:
@@ -84,7 +85,8 @@ SELECT Code
     WHERE Species IS NULL;
 
 -- WAY 3: 
-SELECT Code FROM Species
+SELECT Code 
+    FROM Species
     EXCEPT 
     SELECT DISTINCT Species FROM Bird_nests;
 
