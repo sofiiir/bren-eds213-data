@@ -1,0 +1,102 @@
+1. Compare the output of these three commands: ls 
+                                            ls .
+                                            ls "$(pwd)/../for_bash_essentials"
+Explain why you see what you see, and explain what processing Bash is doing in the third command.
+
+ANSWER: All three of these commands output the same output. They are essentially the same command.
+ls lists the files of the directory we are currently in and since we are in the
+for_bash_essentials directory it lists the files in this directory. ls . also prints the files in 
+the current directory. ls "file_path" also prints the files in the for_bash_essentials because that 
+is the file path provided. All of these commands result in the same output with ls being a 
+shortcut for the other two commands.
+
+2. Try the following two commands:
+
+wc -l *.csv
+cat *.csv | wc -l
+
+The first prints filenames and line counts. The second prints a bare number. Why does it print that number, and why does it not print any filenames?
+
+ANSWER: wc -l *.csv iterates through all of the files in the directory and prints the number of lines in each
+of the csvs. The | symbol is used as a pipe in bash commands. cat *.csv is run first. The cat command
+acts as a concatenate all of the csv files in this working directory. wc -l then prints the number 
+of lines from this concatenated csv, outputting the total number of lines that are in all of the csvs
+in this directory.
+
+3. You want to count the total number of lines in all CSV files and try this command:
+
+cat *.csv | wc -l a.csv
+
+What happens and why?
+
+ANSWER: The cat *.csv creates a concatenated file of all of the csvs and is piped to the wc - l command. 
+However, the wc -l command is run on only the a.csv file because this is the file provided in 
+explicitly to the function. The concatenated csv does not get utilized further in the function. 
+The output is the total number of lines in the a.csv which is 3. 
+
+4. You’re given
+
+name=Moe
+
+and you’d like to print “Moe_Howard”. You try this:
+
+echo "$name_Howard"
+
+but that doesn’t quite work. What fix can you apply to $name, while keeping it inside the quotation marks, to make this command give the desired effect? (Refer back to section 3.)
+
+ANSWER: To print "Moe_Howard" use the bash command echo "${name}_Howard". 
+
+5. You create a script and run it like so:
+
+bash myscript.sh *.csv
+
+What are the values of variables $1 and $#? 
+Explain why the script does not see just one argument passed to it.
+
+ANSWER: The $1 variable is the first variable that is passed to the script. In this case, $1 would because
+a.csv. $# refers to the number of arguments passed to the script In this case there are 5 csvs
+that are passed to the script. The final csv passed to the script is e.csv. 
+
+6. You create a script and run it like so:
+
+bash myscript.sh "$(date)" $(date)
+
+In your script, what are the values of variables $1 and $3?
+
+ANSWER: 
+
+
+7. Create a file you don’t care about (because you’re about to destroy it):
+
+echo "yo ho a line of text" > junk_file.txt
+echo "another line" >> junk_file.txt
+
+You want to sort the lines in this file, so you try:
+
+sort junk_file.txt
+
+Well that prints the lines in sorted order, but it doesn’t actually change the file. You recall section 7 and try:
+
+sort junk_file.txt > junk_file.txt
+
+What happens and why? How can you sort the lines in your file? (Hint: it involves creating a second file and using mv.)
+
+ANSWER: sort junk_file.txt > junk_file.txt overwrites the junk_file.txt but the file becomes empty.
+This occurs because the existing file is set to an empty file before the rest of the function is 
+executed. Essentially, the junk_file.txt is set to empty and then bash sorts the now empty contents. 
+
+Personally, I would choose to simply make a new file name for the sorted file. So I would run
+sort junk_file.txt > sort_junk_file.txt. The new sort_junk_file.txt file would be the sorted file.
+Using the mv function you could run mv junk_file.txt old_junk_file.txt to make change the name of the
+original file. Then you can sort the old file and save the sorted file to the original desired name
+sort old_junk_file.txt > junk_file.txt. Run cat junk_file.txt to confirm the lines are sorted. 
+
+
+8. You want to delete all files ending in .csv, so you type (don’t actually try this):
+
+rm * .csv
+
+but as can be seen, your thumb accidentally hit the space bar and you got an extra space in there. What will rm do in this case?
+
+rm * deletes all of the files in the directory. These deletions are permanent. This command
+also indicates to rm .csv but all of the files would have already been deleted by the rm *. 
