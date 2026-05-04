@@ -1,0 +1,110 @@
+---
+title: "dbplyr"
+format: html
+---
+
+# Using the tidyverse to source databases
+
+The tidyverse was inspired by databases. Therefore, they are highly compatible. 
+`dbplyr` is read only. You can't directly alter the database from R. 
+
+```{r}
+# install packages
+library(tidyverse)
+library(DBI) # makes connections to the databases
+library(duckdb)
+library(dbplyr)
+```
+
+## Connecting to the database
+```{r}
+conn <- DBI::dbConnect(duckdb::duckdb(),
+                       dbdir = "database/database.duckdb")
+
+conn
+```
+```{r}
+DBI::dbListTables(conn)
+```
+Look at one table. This is a lazy evaluation. We are not fetching the data yet just looking at the data. This would fetch the data if it were small enough such as below.  
+```{r}
+# lazy evaluation
+species <- tbl(conn, "Species")
+species 
+```
+Double quote the SQL query and single quote inside of the query. 
+'a%' means anything that starts with a.
+```{r}
+species_a <- dbGetQuery(conn, "SELECT * FROM Species WHERE Code LIKE 'a%'")
+
+species_a
+```
+## Dbplyr
+This allows us to make queries on large data that are too big for our own computers. We can filter and then save the portion of the datatable that is of interest. 
+```{r}
+species |> 
+  filter(Relevance == "Study species") |> 
+  select(Code, Scientific_name) |> 
+  arrange(Scientific_name) |> 
+  head(3) |> 
+  show_query() # this writes the SQL query
+```
+With this query we get an actual shape of the table. 
+```{r}
+species |> 
+  filter(Relevance == "Study species") |> 
+  select(Code, Scientific_name) |> 
+  arrange(Scientific_name) |> 
+  head(3) |> 
+  collect() # fetch the data
+```
+
+Let's do a group_by summarise.
+```{r}
+species |> 
+  group_by(Relevance) |> 
+  summarise(num_species = n()) |> 
+  # show_query()
+  collect()
+
+```
+
+Let's do a mutate
+```{r}
+species_x <- species |> 
+  mutate(Xcode = paste("X_", Code)) |> 
+ # show_query()
+  collect()
+```
+Now we have a normal dataframe.
+```{r}
+species_x
+```
+### Joins
+
+Joins are quite different between the `dbplyr` and `sql`.
+
+Let's do a join:
+```{r}
+eggs_db <- tbl(conn, "Bird_eggs")
+nest_db <- tbl(conn, "Bird_nests")
+```
+
+In `dbplyr` lean towards using a left join as opposed to the SQL default join which is `INNER JOIN`. 
+```{r}
+nest_db |> 
+  left_join(eggs_db, by = "Nest_ID", keep = FALSE) |> 
+  head(5) |> 
+  # show_query()
+  collect()
+```
+
+## Closing the connection
+
+You can write this chunk at the same time you run the connection to avoid any issues. 
+
+```{r}
+DBI::dbDisconnect(conn, shutdown = TRUE)
+```
+
+
