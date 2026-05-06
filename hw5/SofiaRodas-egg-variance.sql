@@ -91,6 +91,7 @@ To see the maximum longitude run:
 -- correlation, and 0 is no correlation at all. How would you characterize 
 -- the correlation between egg volume and longitude for the eggs of 
 -- Calidris alpina in the Arctic above Canada? 
-The correlation value is just barely under zero at approximately 
+The correlation between Calidris alpina egg volume and logitude 
+is just barely under zero at approximately 
 -0.108. There is a weak negative correlation. As the longitude 
-value increases there is a slight decrease in egg volume. 
+value increases there is a slight decrease in Calidris alpina egg volume. 
